@@ -7,7 +7,7 @@ let velocity = 0;
 let gravity = 0.6;
 let isJumping = false;
 let score = 0;
-let gameRunning = true;
+let running = true;
 
 function jump(){
     if(!isJumping){
@@ -16,24 +16,24 @@ function jump(){
     }
 }
 
-document.addEventListener("keydown", e=>{
-    if(e.code === "Space"){
-        if(!gameRunning){
-            restartGame();
-        }else{
-            jump();
-        }
+document.addEventListener("touchstart", handleInput);
+document.addEventListener("click", handleInput);
+
+function handleInput(){
+    if(!running){
+        restart();
+    }else{
+        jump();
     }
-});
+}
 
 function gameLoop(){
 
-    if(!gameRunning) return;
+    if(!running) return;
 
     velocity -= gravity;
 
-    let bottom = parseFloat(window.getComputedStyle(player).bottom);
-
+    let bottom = parseFloat(getComputedStyle(player).bottom);
     bottom += velocity;
 
     if(bottom <= 0){
@@ -51,28 +51,28 @@ function gameLoop(){
 
 function spawnObstacle(){
 
-    if(!gameRunning) return;
+    if(!running) return;
 
     const obstacle = document.createElement("div");
     obstacle.classList.add("obstacle");
 
-    obstacle.style.left = "800px";
+    obstacle.style.left = game.offsetWidth + "px";
 
     game.appendChild(obstacle);
 
-    let obstaclePos = 800;
+    let pos = game.offsetWidth;
 
     const move = setInterval(()=>{
 
-        if(!gameRunning){
+        if(!running){
             clearInterval(move);
             return;
         }
 
-        obstaclePos -= 5;
-        obstacle.style.left = obstaclePos + "px";
+        pos -= 6;
+        obstacle.style.left = pos + "px";
 
-        if(obstaclePos < -30){
+        if(pos < -40){
             obstacle.remove();
             clearInterval(move);
             score++;
@@ -81,22 +81,22 @@ function spawnObstacle(){
 
     },20);
 
-    setTimeout(spawnObstacle,1500 + Math.random()*1000);
+    setTimeout(spawnObstacle,1400);
 }
 
 function checkCollision(){
 
     const obstacles = document.querySelectorAll(".obstacle");
 
-    obstacles.forEach(obstacle=>{
+    obstacles.forEach(o=>{
 
-        const playerRect = player.getBoundingClientRect();
-        const obstacleRect = obstacle.getBoundingClientRect();
+        const p = player.getBoundingClientRect();
+        const r = o.getBoundingClientRect();
 
         if(
-            playerRect.left < obstacleRect.right &&
-            playerRect.right > obstacleRect.left &&
-            playerRect.bottom > obstacleRect.top
+            p.left < r.right &&
+            p.right > r.left &&
+            p.bottom > r.top
         ){
             endGame();
         }
@@ -105,11 +105,11 @@ function checkCollision(){
 }
 
 function endGame(){
-    gameRunning = false;
+    running = false;
     gameOverText.style.display = "block";
 }
 
-function restartGame(){
+function restart(){
 
     document.querySelectorAll(".obstacle").forEach(o=>o.remove());
 
@@ -118,7 +118,7 @@ function restartGame(){
 
     player.style.bottom = "0px";
 
-    gameRunning = true;
+    running = true;
     gameOverText.style.display = "none";
 
     spawnObstacle();
