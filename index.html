@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Mini GTA 6</title>
+<title>Mini GTA Sandbox</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -10,12 +10,22 @@
 
 <canvas id="game"></canvas>
 
+<div id="hud">
+<div id="wanted"></div>
+<canvas id="minimap"></canvas>
+</div>
+
 <div id="ui">
+
 <div id="joystick">
 <div id="stick"></div>
 </div>
 
+<div id="buttons">
 <button id="enter">🚗</button>
+<button id="shoot">🔫</button>
+</div>
+
 </div>
 
 <script src="game.js"></script>
