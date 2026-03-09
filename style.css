@@ -19,6 +19,21 @@ justify-content:space-between;
 align-items:center;
 }
 
+#buttons{
+display:flex;
+gap:10px;
+}
+
+button{
+width:70px;
+height:70px;
+border:none;
+border-radius:15px;
+font-size:28px;
+background:#222;
+color:white;
+}
+
 #joystick{
 width:120px;
 height:120px;
@@ -38,12 +53,17 @@ left:30px;
 top:30px;
 }
 
-#enter{
-width:70px;
-height:70px;
-border:none;
-border-radius:15px;
-font-size:30px;
-background:#222;
+#hud{
+position:fixed;
+top:10px;
+left:10px;
 color:white;
+}
+
+#minimap{
+width:120px;
+height:120px;
+background:black;
+border:2px solid white;
+margin-top:10px;
 }
